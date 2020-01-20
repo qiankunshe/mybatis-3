@@ -1,5 +1,5 @@
 /**
- *    Copyright 2009-2018 the original author or authors.
+ *    Copyright 2009-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -134,8 +134,8 @@ public class TypeParameterResolver {
   }
 
   private static Type resolveTypeVar(TypeVariable<?> typeVar, Type srcType, Class<?> declaringClass) {
-    Type result = null;
-    Class<?> clazz = null;
+    Type result;
+    Class<?> clazz;
     if (srcType instanceof Class) {
       clazz = (Class<?>) srcType;
     } else if (srcType instanceof ParameterizedType) {
@@ -147,7 +147,7 @@ public class TypeParameterResolver {
 
     if (clazz == declaringClass) {
       Type[] bounds = typeVar.getBounds();
-      if(bounds.length > 0) {
+      if (bounds.length > 0) {
         return bounds[0];
       }
       return Object.class;
@@ -179,7 +179,7 @@ public class TypeParameterResolver {
       }
       if (declaringClass == parentAsClass) {
         for (int i = 0; i < parentTypeVars.length; i++) {
-          if (typeVar == parentTypeVars[i]) {
+          if (typeVar.equals(parentTypeVars[i])) {
             return parentAsType.getActualTypeArguments()[i];
           }
         }
@@ -202,7 +202,7 @@ public class TypeParameterResolver {
     for (int i = 0; i < parentTypeArgs.length; i++) {
       if (parentTypeArgs[i] instanceof TypeVariable) {
         for (int j = 0; j < srcTypeVars.length; j++) {
-          if (srcTypeVars[j] == parentTypeArgs[i]) {
+          if (srcTypeVars[j].equals(parentTypeArgs[i])) {
             noChange = false;
             newParentArgs[i] = srcTypeArgs[j];
           }
